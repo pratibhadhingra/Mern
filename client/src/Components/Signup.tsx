@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { NavLink } from "react-router-dom";
+import { DevTool } from "@hookform/devtools"
 
-export interface ProfileFormValues {
+export interface FormValues {
   name: string;
   email: string;
   phoneNo: string;
@@ -9,14 +11,23 @@ export interface ProfileFormValues {
   cpassword: string;
 }
 
-const Profile = () => {
+const Signup = () => {
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
-  } = useForm<ProfileFormValues>();
+  } = useForm<FormValues>();
 
-  const onsubmit = async () => {};
+
+  const [user, setUser] = useState({
+    name: '', email: '', phoneNo: '', paassword: '', cpassword: ''
+  })
+
+  const onsubmit = (data: FormValues) => {
+    console.log("hello",data)
+    setUser({...user,...data})
+  };
 
   return (
     <>
@@ -83,8 +94,9 @@ const Profile = () => {
           <NavLink to='/login'>Already register</NavLink>
         </div>
       </form>
+      <DevTool control={control} />
     </>
   );
 };
 
-export default Profile;
+export default Signup;
